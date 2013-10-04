@@ -11,14 +11,6 @@ class Deck
     end
   end  
 
-  def numCards
-    @cards.length
-  end
-
-  def getCards
-    @cards
-  end 
-
   def shuffle
     @cards.shuffle!
   end
@@ -135,9 +127,6 @@ player.showHand
 puts
 puts dealer.getName
 dealer.showHand
-
-#puts "Number of cards in the deck:"
-#puts myDeck.numCards
 
 puts ""
 puts "---------- POINT COUNT ----------"
