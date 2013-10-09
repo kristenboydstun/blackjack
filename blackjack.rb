@@ -27,23 +27,26 @@ class Deck
     mixcards
   end  
 
+  private
   def mixcards
     @cards.shuffle!
   end
 
+  public
   def dealCard
     @cards.pop
   end
 end 
 
 class Player
+
   def initialize (name, deck)
     @name = name
     @deck = deck
     @cards = []
   end
 
-  def getName
+  def name
     @name.upcase
   end
   def showHand
@@ -87,7 +90,7 @@ class Game
     else
       winner = cards1 > cards2 ? player1 : player2
     end
-    puts winner.getName if winner
+    puts winner.name if winner
   end
   def self.getValue (card)
     @@valueDictionary["#{card.type}"]
@@ -114,13 +117,13 @@ dealer.hit
 
 puts
 puts "---------- SHOWING CARDS ----------"
-puts dealer.getName
+puts dealer.name
 dealer.showOneCard
 puts "*********"
 
 while player.countCards < 21
   puts
-  puts player.getName
+  puts player.name
   player.showHand
 
   puts
@@ -135,19 +138,19 @@ dealer.hit while dealer.countCards <= 16
 puts
 puts "---------- GAME OVER ----------"
 puts
-puts player.getName
+puts player.name
 player.showHand
 puts
-puts dealer.getName
+puts dealer.name
 dealer.showHand
 
 puts ""
 puts "---------- POINT COUNT ----------"
 puts ""
-puts player.getName
+puts player.name
 puts player.countCards
 puts ""
-puts dealer.getName
+puts dealer.name
 puts dealer.countCards
 
 puts ""
