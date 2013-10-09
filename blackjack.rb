@@ -1,12 +1,12 @@
 class Deck
   def initialize
     @suits = ["hearts","spades","diamonds","clubs"]
+    @types = ["ace", "two", "three", "four", "five", "six", "seven",
+              "eight", "nine", "ten", "jack", "queen", "king"]
     @cards = []
-    @valueDictionary = {"ace" => 11, "two" => 2, "three" => 3, "four" => 4, "five" => 5, "six" => 6, "seven" => 7, "eight" => 8, "nine" => 9, "ten" => 10, "jack" => 10, "queen" => 10, "king" => 10}
-
     @suits.each do |suit|
-      @valueDictionary.keys.each do |name|
-        @cards << CardHolder.new(name, suit, @valueDictionary["#{name}"])
+      @types.each do |type|
+        @cards << Card.new(type, suit)
       end
     end
   end  
@@ -20,9 +20,14 @@ class Deck
   end
 end 
 
-CardHolder = Struct.new(:name, :suit, :value) do
+class Card
+  attr_accessor :type
+  def initialize (t, s)
+    @type = t
+    @suit = s
+  end
   def showCard
-    "#{name} of #{suit}"
+    "#{type} of #{@suit}"
   end
 end
 
@@ -46,8 +51,8 @@ class Player
     total = 0
     aces = 0
     @cards.each do |card| 
-      total += card.value
-      aces = aces + 1 if  card.name == "ace"
+      total += Game.getValue(card)
+      aces = aces + 1 if  card.type == "ace"
     end
     while total > 21 && aces > 0
       total = total - 10
@@ -61,6 +66,7 @@ class Player
 end
 
 class Game
+  @@valueDictionary = {"ace" => 11, "two" => 2, "three" => 3, "four" => 4, "five" => 5, "six" => 6, "seven" => 7, "eight" => 8, "nine" => 9, "ten" => 10, "jack" => 10, "queen" => 10, "king" => 10}
   def showWinner (player1, player2)
     cards1 = player1.countCards
     cards2 = player2.countCards
@@ -76,7 +82,10 @@ class Game
     else
       winner = cards1 > cards2 ? player1 : player2
     end
-    puts winner.getName unless winner.nil?
+    puts winner.getName if winner
+  end
+  def self.getValue (card)
+    @@valueDictionary["#{card.type}"]
   end
 end
 
