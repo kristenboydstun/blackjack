@@ -49,17 +49,20 @@ class Player
   def name
     @name.upcase
   end
+
   def showHand
     @cards.each { |card| puts card.display}
   end
+
   def showOneCard
     puts @cards[0].display
   end
+
   def countCards
     total = 0
     aces = 0
     @cards.each do |card| 
-      total += Game.getValue(card)
+      total += Blackjack.getValue(card)
       aces = aces + 1 if  card.type == "ace"
     end
     while total > 21 && aces > 0
@@ -68,13 +71,15 @@ class Player
     end
     total
   end
+
   def hit
     @cards << @deck.dealCard
   end
 end
 
-class Game
+class Blackjack
   @@valueDictionary = {"ace" => 11, "two" => 2, "three" => 3, "four" => 4, "five" => 5, "six" => 6, "seven" => 7, "eight" => 8, "nine" => 9, "ten" => 10, "jack" => 10, "queen" => 10, "king" => 10}
+  
   def showWinner (player1, player2)
     cards1 = player1.countCards
     cards2 = player2.countCards
@@ -92,6 +97,8 @@ class Game
     end
     puts winner.name if winner
   end
+
+  # card has a value in the context of a blackjack game
   def self.getValue (card)
     @@valueDictionary["#{card.type}"]
   end
@@ -104,7 +111,7 @@ puts "Welcome to blackjack! Please enter your name:"
 name = gets.chomp
 puts ""
 
-blackjackGame = Game.new
+blackjackGame = Blackjack.new
 myDeck = Deck.new
 
 player = Player.new(name, myDeck)
