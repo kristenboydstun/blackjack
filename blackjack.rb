@@ -9,6 +9,10 @@ class Card
   def display
     "#{type} of #{@suit}"
   end
+
+  def to_s
+    display
+  end
 end
 
 class Deck
@@ -51,11 +55,11 @@ class Player
   end
 
   def showHand
-    @cards.each { |card| puts card.display}
+    @cards.each { |card| puts card}
   end
 
   def showOneCard
-    puts @cards[0].display
+    puts @cards[0]
   end
 
   def countCards
