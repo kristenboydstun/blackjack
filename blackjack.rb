@@ -1,35 +1,39 @@
-class Deck
-  def initialize
-    @suits = ["hearts","spades","diamonds","clubs"]
-    @types = ["ace", "two", "three", "four", "five", "six", "seven",
-              "eight", "nine", "ten", "jack", "queen", "king"]
-    @cards = []
-    @suits.each do |suit|
-      @types.each do |type|
-        @cards << Card.new(type, suit)
-      end
-    end
-  end  
-
-  def shuffle
-    @cards.shuffle!
-  end
-
-  def getCard
-    @cards.pop
-  end
-end 
-
 class Card
   attr_accessor :type
+
   def initialize (t, s)
     @type = t
     @suit = s
   end
-  def showCard
+
+  def display
     "#{type} of #{@suit}"
   end
 end
+
+class Deck
+  @@suits = ["hearts","spades","diamonds","clubs"]
+  @@types = ["ace", "two", "three", "four", "five", "six", "seven",
+              "eight", "nine", "ten", "jack", "queen", "king"]
+
+  def initialize
+    @cards = []
+    @@suits.each do |suit|
+      @@types.each do |type|
+        @cards << Card.new(type, suit)
+      end
+    end
+    mixup
+  end  
+
+  def mixup
+    @cards.shuffle!
+  end
+
+  def dealCard
+    @cards.pop
+  end
+end 
 
 class Player
   def initialize (name, deck)
@@ -42,10 +46,10 @@ class Player
     @name.upcase
   end
   def showHand
-    @cards.each { |card| puts card.showCard}
+    @cards.each { |card| puts card.display}
   end
   def showOneCard
-    puts @cards[0].showCard
+    puts @cards[0].display
   end
   def countCards
     total = 0
@@ -61,7 +65,7 @@ class Player
     total
   end
   def hit
-    @cards << @deck.getCard
+    @cards << @deck.dealCard
   end
 end
 
@@ -98,7 +102,6 @@ puts ""
 
 blackjackGame = Game.new
 myDeck = Deck.new
-myDeck.shuffle
 
 player = Player.new(name, myDeck)
 dealer = Player.new("dealer", myDeck)
