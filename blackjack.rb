@@ -16,6 +16,7 @@ class Deck
   @@types = ["ace", "two", "three", "four", "five", "six", "seven",
               "eight", "nine", "ten", "jack", "queen", "king"]
 
+  # fill deck and mix cards
   def initialize
     @cards = []
     @@suits.each do |suit|
@@ -23,10 +24,10 @@ class Deck
         @cards << Card.new(type, suit)
       end
     end
-    mixup
+    mixcards
   end  
 
-  def mixup
+  def mixcards
     @cards.shuffle!
   end
 
