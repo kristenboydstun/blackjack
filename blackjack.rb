@@ -114,6 +114,11 @@ class Blackjack
       puts ">>>> Hit (h) or stay (s)?"
       move = gets.chomp.downcase
 
+      if !['h', 's'].include?(move)
+        puts "Error: you must enter h or s"
+        next
+      end
+
       move == "h" ? @player.hit : break
     end
   end
