@@ -93,26 +93,33 @@ class Blackjack
   end
 
   def start
-     dealCards
+    dealCards
 
+    playerTakesTurn
+    dealerTakesTurn
+
+    showHands (hidden=false)
+    puts
+    puts "---------- WINNER ----------"
+    puts
+    getWinner
+    puts @winner.name if @winner
+  end
+
+  def playerTakesTurn
     while @player.countCards < 21
 
-      showHands      
+      showHands (hidden=true)    
 
       puts ">>>> Hit (h) or stay (s)?"
       move = gets.chomp.downcase
 
       move == "h" ? @player.hit : break
     end
+  end
 
+  def dealerTakesTurn
     @dealer.hit while @dealer.countCards <= 16
-
-    showHands
-    puts
-    puts "---------- WINNER ----------"
-    puts
-    getWinner
-    puts @winner.name if @winner
   end
 
   def dealCards
@@ -128,12 +135,16 @@ class Blackjack
     puts ""
   end
 
-  def showHands
+  def showHands (hidden)
     puts
     puts "---------- SHOWING CARDS ----------"
     puts @dealer.name
-    @dealer.showOneCard
-    puts "*********"
+    if hidden
+      @dealer.showOneCard
+      puts "*********"
+    else
+      @dealer.showHand
+    end
     puts
     puts @player.name
     @player.showHand
