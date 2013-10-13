@@ -1,5 +1,5 @@
 class Card
-  attr_accessor :type
+  attr_accessor :type, :suit
 
   def initialize (t, s)
     @type = t
@@ -7,7 +7,7 @@ class Card
   end
 
   def display
-    "#{type} of #{@suit}"
+    "#{type} of #{suit}"
   end
 
   def to_s
