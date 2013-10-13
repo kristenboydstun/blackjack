@@ -85,50 +85,50 @@ class Blackjack
   @@valueDictionary = {"ace" => 11, "two" => 2, "three" => 3, "four" => 4, "five" => 5, "six" => 6, "seven" => 7, "eight" => 8, "nine" => 9, "ten" => 10, "jack" => 10, "queen" => 10, "king" => 10}
   
   def initialize
+    greet
+
+    myDeck = Deck.new
+    @player = Player.new(@name, myDeck)
+    @dealer = Player.new("dealer", myDeck)
+
+    @player.hit
+    @player.hit
+    @dealer.hit
+    @dealer.hit
+
+    while @player.countCards < 21
+
+      showHands      
+
+      puts ">>>> Hit (h) or stay (s)?"
+      move = gets.chomp.downcase
+
+      move == "h" ? @player.hit : break
+    end
+
+    @dealer.hit while @dealer.countCards <= 16
+
+    showHands
+
+    showWinner(@player, @dealer)
+  end
+
+  def greet
     puts "Welcome to blackjack! Please enter your name:"
     @name = gets.chomp
     puts ""
+  end
 
-    myDeck = Deck.new
-
-    player = Player.new(@name, myDeck)
-    dealer = Player.new("dealer", myDeck)
-
-    player.hit
-    player.hit
-    dealer.hit
-    dealer.hit
-
+  def showHands
     puts
     puts "---------- SHOWING CARDS ----------"
-    puts dealer.name
-    dealer.showOneCard
+    puts @dealer.name
+    @dealer.showOneCard
     puts "*********"
-
-    while player.countCards < 21
-      puts
-      puts player.name
-      player.showHand
-
-      puts
-      puts "Hit or stay?"
-      move = gets.chomp.downcase
-
-      move == "hit" ? player.hit : break
-    end
-
-    dealer.hit while dealer.countCards <= 16
-
     puts
-    puts "---------- GAME OVER ----------"
+    puts @player.name
+    @player.showHand
     puts
-    puts player.name
-    player.showHand
-    puts
-    puts dealer.name
-    dealer.showHand
-
-    showWinner(player, dealer)
   end
 
   def showWinner (player1, player2)
@@ -159,13 +159,4 @@ class Blackjack
 end
 
 
-
-
-
-
 blackjackGame = Blackjack.new
-
-
-
-
-
