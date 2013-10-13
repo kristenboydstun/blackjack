@@ -90,11 +90,10 @@ class Blackjack
     myDeck = Deck.new
     @player = Player.new(@name, myDeck)
     @dealer = Player.new("dealer", myDeck)
+  end
 
-    @player.hit
-    @player.hit
-    @dealer.hit
-    @dealer.hit
+  def start
+     dealCards
 
     while @player.countCards < 21
 
@@ -109,8 +108,18 @@ class Blackjack
     @dealer.hit while @dealer.countCards <= 16
 
     showHands
+    puts
+    puts "---------- WINNER ----------"
+    puts
+    getWinner
+    puts @winner.name if @winner
+  end
 
-    showWinner(@player, @dealer)
+  def dealCards
+    @player.hit
+    @player.hit
+    @dealer.hit
+    @dealer.hit
   end
 
   def greet
@@ -131,25 +140,21 @@ class Blackjack
     puts
   end
 
-  def showWinner (player1, player2)
-    puts ""
-    puts "---------- WINNER ----------"
-    puts ""
-    cards1 = player1.countCards
-    cards2 = player2.countCards
+  def getWinner
+    cards_player = @player.countCards
+    cards_dealer = @dealer.countCards
     # tie
-    if cards1 == cards2
+    if cards_player == cards_dealer
       puts "TIE"
-    elsif cards1 > 21 && cards2 > 21
+    elsif cards_player > 21 && cards_dealer > 21
       puts "EVERYONE OVER 21"
-    elsif cards1 > 21
-      winner = player2
-    elsif cards2 > 21
-      winner = player1
+    elsif cards_player > 21
+      @winner = @dealer
+    elsif cards_dealer > 21
+      @winner = @player
     else
-      winner = cards1 > cards2 ? player1 : player2
+      @winner = cards_player > cards_dealer ? @player : @dealer
     end
-    puts winner.name if winner
   end
 
   # card has a value in the context of a blackjack game
@@ -159,4 +164,5 @@ class Blackjack
 end
 
 
-blackjackGame = Blackjack.new
+game = Blackjack.new
+game.start
