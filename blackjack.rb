@@ -84,7 +84,57 @@ end
 class Blackjack
   @@valueDictionary = {"ace" => 11, "two" => 2, "three" => 3, "four" => 4, "five" => 5, "six" => 6, "seven" => 7, "eight" => 8, "nine" => 9, "ten" => 10, "jack" => 10, "queen" => 10, "king" => 10}
   
+  def initialize
+    puts "Welcome to blackjack! Please enter your name:"
+    @name = gets.chomp
+    puts ""
+
+    myDeck = Deck.new
+
+    player = Player.new(@name, myDeck)
+    dealer = Player.new("dealer", myDeck)
+
+    player.hit
+    player.hit
+    dealer.hit
+    dealer.hit
+
+    puts
+    puts "---------- SHOWING CARDS ----------"
+    puts dealer.name
+    dealer.showOneCard
+    puts "*********"
+
+    while player.countCards < 21
+      puts
+      puts player.name
+      player.showHand
+
+      puts
+      puts "Hit or stay?"
+      move = gets.chomp.downcase
+
+      move == "hit" ? player.hit : break
+    end
+
+    dealer.hit while dealer.countCards <= 16
+
+    puts
+    puts "---------- GAME OVER ----------"
+    puts
+    puts player.name
+    player.showHand
+    puts
+    puts dealer.name
+    dealer.showHand
+
+    showWinner(player, dealer)
+  end
+
   def showWinner (player1, player2)
+    puts ""
+    puts "---------- WINNER ----------"
+    puts ""
     cards1 = player1.countCards
     cards2 = player2.countCards
     # tie
@@ -111,63 +161,10 @@ end
 
 
 
-puts "Welcome to blackjack! Please enter your name:"
-name = gets.chomp
-puts ""
+
 
 blackjackGame = Blackjack.new
-myDeck = Deck.new
 
-player = Player.new(name, myDeck)
-dealer = Player.new("dealer", myDeck)
-
-player.hit
-player.hit
-dealer.hit
-dealer.hit
-
-puts
-puts "---------- SHOWING CARDS ----------"
-puts dealer.name
-dealer.showOneCard
-puts "*********"
-
-while player.countCards < 21
-  puts
-  puts player.name
-  player.showHand
-
-  puts
-  puts "Hit or stay?"
-  move = gets.chomp.downcase
-
-  move == "hit" ? player.hit : break
-end
-
-dealer.hit while dealer.countCards <= 16
-
-puts
-puts "---------- GAME OVER ----------"
-puts
-puts player.name
-player.showHand
-puts
-puts dealer.name
-dealer.showHand
-
-puts ""
-puts "---------- POINT COUNT ----------"
-puts ""
-puts player.name
-puts player.countCards
-puts ""
-puts dealer.name
-puts dealer.countCards
-
-puts ""
-puts "---------- WINNER ----------"
-puts ""
-blackjackGame.showWinner(player, dealer)
 
 
 
